@@ -4,7 +4,7 @@ import ReactSlick, { Settings } from "react-slick";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 
 const ArrowButton = styled.button<{ pos?: "left" | "right" }>`
-  padding: 10px;
+  padding: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   z-index: 1;
@@ -16,7 +16,10 @@ const ArrowButton = styled.button<{ pos?: "left" | "right" }>`
           left: 0;
           transform: translate(-50%, -50%);
         `
-      : css`right: 0; tran`}
+      : css`
+          right: 0;
+          transform: translate(50%, -50%);
+        `}
   &:before {
     content: initial;
   }
@@ -41,12 +44,12 @@ const DEFAUT_SETTINGS: Settings = {
   swipe: true,
   draggable: true,
   prevArrow: (
-    <ArrowButton>
+    <ArrowButton pos="left">
       <MdArrowBackIos />
     </ArrowButton>
   ),
   nextArrow: (
-    <ArrowButton>
+    <ArrowButton pos="right">
       <MdArrowForwardIos />
     </ArrowButton>
   ),
@@ -54,7 +57,7 @@ const DEFAUT_SETTINGS: Settings = {
 
 interface Props {
   settings?: Settings;
-  children: JSX.Element;
+  children: JSX.Element[];
 }
 
 function Slider({ settings = DEFAUT_SETTINGS, children }: Props) {
