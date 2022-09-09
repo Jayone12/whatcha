@@ -1,7 +1,11 @@
-import React from "react";
+import LatestMovieSection from "../features/movie/lastest";
 
 function MainPage() {
-  return <div></div>;
+  return (
+    <div>
+      <LatestMovieSection />
+    </div>
+  );
 }
 
 export default MainPage;
