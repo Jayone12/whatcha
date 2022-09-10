@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
+import useMovieSearch from "../features/useMovieSearch";
+import React, { useState } from "react";
 
 const Base = styled.header`
   position: fixed;
@@ -26,7 +28,6 @@ const MenuList = styled.ul`
   padding: 0;
   margin: 0;
   display: flex;
-  overflow: hidden;
 `;
 
 const Menu = styled.li`
@@ -129,8 +130,56 @@ const SignUp = styled.button`
   margin: 15px 0;
 `;
 
+const SearchResultWrapper = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  max-height: 220px;
+  overflow-y: scroll;
+`;
+
+const SearchResultList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const SearchResultListItem = styled.li`
+  padding: 4px 6px;
+  box-sizing: border-box;
+  color: #222;
+  font-size: 16px;
+  width: 100%;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &:hover {
+    background: #eee;
+  }
+`;
+
 function Header() {
-  const handleKeyword = () => {};
+  const [keyword, setKeyword] = useState<string>("");
+  const pathname = window.location.pathname;
+
+  const isTv = pathname.indexOf("tv") > -1;
+  /**
+   * input keyword 입력 값 저장하는 함수
+   * @param event
+   */
+  const handleKeyword = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setKeyword(event.target.value);
+  };
+
+  const { data: searchResult, isLoading } = useMovieSearch(keyword);
 
   return (
     <Base>
@@ -162,11 +211,21 @@ function Header() {
                       <SearchInput
                         placeholder="콘텐츠, 인물, 컬렉션, 유저를 검색해보세요."
                         onChange={handleKeyword}
+                        value={keyword}
                       />
                     </SearchLabel>
                   </SearchForm>
                 </SearchFormWrapper>
               </SearchContainer>
+              <SearchResultWrapper>
+                <SearchResultList>
+                  {searchResult?.data.results.map((item) => (
+                    <Link key={item.id} to={`/movie/${item.id}`}>
+                      <SearchResultListItem>{item.title}</SearchResultListItem>
+                    </Link>
+                  ))}
+                </SearchResultList>
+              </SearchResultWrapper>
             </SearchMenu>
             <Menu>
               <SignIn>로그인</SignIn>
