@@ -21,7 +21,7 @@ function NowPlayingSection() {
   const getYear = (date: string) => date.split("-")[0];
   return (
     <Base>
-      <Title>최근 개봉작</Title>
+      <Title>현재 상영중</Title>
       {isLoading || !data ? (
         <div>Loading...</div>
       ) : (
