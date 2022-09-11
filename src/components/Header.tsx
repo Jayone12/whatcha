@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import useMovieSearch from "../features/useMovieSearch";
+import useMovieSearch from "../features/movie/useMovieSearch";
 import React, { useState } from "react";
 
 const Base = styled.header`
