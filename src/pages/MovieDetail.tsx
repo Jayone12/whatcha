@@ -6,6 +6,8 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { useParams } from "react-router";
 import { Rating } from "@mui/material";
 import useMovieDetail from "../features/movie/useMovieDetail";
+import Similar from "../features/movie/detail/Similar";
+import DefaultInfo from "../features/movie/detail/DefaultInfo";
 
 const Base = styled.div`
   position: relative;
@@ -216,7 +218,6 @@ type Params = { id: string };
 function MovieDetail() {
   const { id } = useParams<Params>();
   const { data, isLoading } = useMovieDetail(id);
-  console.log(data);
   const year = useMemo(() => {
     return data?.release_date.split("-")[0] || "";
   }, [data]);
@@ -292,8 +293,14 @@ function MovieDetail() {
           </TopInfo>
           <BottomInfo>
             <ContentSectionContainer>
-              {/* <DefalutInfo /> */}
-              {/* <Similar /> */}
+              <DefaultInfo
+                title={data.title}
+                year={year}
+                genres={genres}
+                runtime={data.runtime}
+                overview={data.overview}
+              />
+              <Similar id={id} />
             </ContentSectionContainer>
           </BottomInfo>
         </>
